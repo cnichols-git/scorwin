@@ -1,0 +1,19 @@
+##
+# The Project
+#
+
+# Set up three CentOS 7 systems
+
+Name them the following:
+server-main
+server-alpha
+server-beta
+
+Install with whatever your want in Virtualbox ram and what not.
+
+server-main will be where you install a webserver.
+server-alpha is where you will develop you code for the site. 
+server-beta will be for other software instances as we go.
+
+Main Goal:
+- have a CentOS-7 server provide a webpage that says "hello world!" in a browser.
