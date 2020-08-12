@@ -1,0 +1,41 @@
+##
+# This is all about LVMs RHEL 7 handles them
+#different than RHEL 8, but that is for another day
+#
+
+Create a VM with the following specs:
+
+Dynamically allocated hard disk
+- 40GB of storage
+
+Software Selection:
+- Workstation (this will have Gnome by defaulft)
+- add Gnome applications and Internet Applications, and anything else that grabs ya
+
+In the Installation destination section:
+- Storage Configuration: choose Custom
+- Encryption: check Encrypt my data
+
+ensure it has the following (choose them during install)
+
+LVM:
+/ - 10GB ext4
+/var
+/var/tmp
+/var/log
+/var/log/audit
+/home
+/opt
+/tmp
+/swap - 1G
+
+tasks:
+  - name: Install Gnome Tweaks
+    become: yes
+    package:
+      name: gnome-tweak-tool
+      
+        handlers:
+    - name: restart sshd
+      service: name=sshd state=restarted
+
