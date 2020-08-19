@@ -19,23 +19,20 @@ In the Installation destination section:
 ensure it has the following (choose them during install)
 
 LVM:
-/ - 10GB ext4
-/var
-/var/tmp
-/var/log
-/var/log/audit
-/home
-/opt
-/tmp
-/swap - 1G
+/              - 10GB ext4
+/var           - 10G ext4
+/var/tmp       - 10G ext4
+/var/log       - 10G ext4
+/var/log/audit - 10g ext4
+/home          - 10G ext4
+/opt           - 10G ext4
+/tmp           - 10G ext4
+/swap          - 1G (this will just be swap)
 
-tasks:
-  - name: Install Gnome Tweaks
-    become: yes
-    package:
-      name: gnome-tweak-tool
-      
-        handlers:
-    - name: restart sshd
-      service: name=sshd state=restarted
+##
+# once all this is done check out your variables you created with lsblk (list blocks) 
+# you can also check out your free disk space with df -h 
+# ^^ I use these two commands all day long
+#
+# Now up load the output of lsblk to this git page, praticing Git stuff
 
