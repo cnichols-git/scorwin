@@ -1,0 +1,28 @@
+##
+# Git Basic Commands 
+
+git status
+
+##
+# This is the go to for the most part 
+# I truncated all the text and just added to meat here
+
+##
+# The commands and order to run them
+
+
+git status
+git add
+git commit -m "add a message here"
+git push
+
+after git add I check status again and it will tell you what is next
+then I commit and again git status, then git push and again git status to see if all is updated or if I screwed something up.  
+
+
+once you push you will need to add username and pw
+
+##
+# I was going to add a bunch of instructions, but it looked super messy and you pretty sharp. I think you will get it or ask good questions.
+
+
