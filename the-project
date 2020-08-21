@@ -1,0 +1,24 @@
+##
+# The Project
+#
+
+# Set up three CentOS 7 systems
+
+Name them the following:
+server-main
+server-alpha
+server-beta
+
+Install with whatever your want in Virtualbox ram and what not.
+
+server-main will be where you install a webserver.
+server-alpha is where you will develop you code for the site. 
+server-beta will be for other software instances as we go.
+
+Main Goal:
+- have a CentOS-7 server provide a webpage that says "hello world!" in a browser.
+
+'*'COMPLETE'*'
+However, I tried to add an image to my webpage and it never shows?  I SCP'ed the file from my ubuntu onto my webserver in the proper directory and it never showed.
+It has been years since I've done html coding, so I'm sure I could figure it out, I'm just surprised it didn't come to me sooner.... but it says "HELLO WORLD" in bold now!
+...maybe I did it wrong, I developed my code directly on the server-main. I edited the index.html file directly from there, where I installed the web server.
