@@ -1,0 +1,123 @@
+int a;
+boolean recordedSignal_fanlow[] =     {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0};
+boolean recordedSignal_fanmed[] =     {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0};
+boolean recordedSignal_fanhigh[] =    {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0};
+boolean recordedSignal_fanoffon[] =   {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0};
+boolean recordedSignal_lightoffon[] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0};
+#define GND 3
+#define VCC 4
+#define DATA 5
+int rfwait = 800;
+
+
+void setup() {
+  pinMode(GND, OUTPUT);
+  pinMode(VCC, OUTPUT);
+  pinMode(DATA, OUTPUT);
+
+  digitalWrite(GND, LOW);
+  digitalWrite(VCC, HIGH);
+}
+
+void fanlow() {
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanlow) - 1; i++) {
+      digitalWrite(DATA, recordedSignal_fanlow[i]);
+      delayMicroseconds(393.9);
+    }
+    digitalWrite(DATA, recordedSignal_fanlow);
+
+    delayMicroseconds(9000);
+  }
+  delay(rfwait);
+}
+
+void fanmed() {
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanmed) - 1; i++) {
+      digitalWrite(DATA, recordedSignal_fanmed[i]);
+      delayMicroseconds(393.9);
+    }
+    digitalWrite(DATA, recordedSignal_fanmed);
+
+    delayMicroseconds(9000);
+  }
+  delay(rfwait);
+}
+
+void fanhigh() {
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanhigh) - 1; i++) {
+      digitalWrite(DATA, recordedSignal_fanhigh[i]);
+      delayMicroseconds(393.9);
+    }
+    digitalWrite(DATA, recordedSignal_fanhigh);
+
+    delayMicroseconds(9000);
+  }
+  delay(rfwait);
+}
+
+void fanoffon() {
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanoffon) - 1; i++) {
+      digitalWrite(DATA, recordedSignal_fanoffon[i]);
+      delayMicroseconds(393.9);
+    }
+    digitalWrite(DATA, recordedSignal_fanoffon);
+
+    delayMicroseconds(9000);
+  }
+  delay(rfwait);
+}
+
+void lightoffon() {
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_lightoffon) - 1; i++) {
+      digitalWrite(DATA, recordedSignal_lightoffon[i]);
+      delayMicroseconds(393.9);
+    }
+    digitalWrite(DATA, recordedSignal_lightoffon);
+
+    delayMicroseconds(9000);
+  }
+  delay(rfwait);
+}
+
+void loop() {
+
+  for (int i = 0; i < sizeof(recordedSignal_fanlow) - 1; i++) {
+    digitalWrite(DATA, recordedSignal_fanlow[i]);
+    delayMicroseconds(393.9);
+  }
+
+  delayMicroseconds(10000);
+  for (int i = 0; i < sizeof(recordedSignal_fanmed) - 1; i++) {
+    digitalWrite(DATA, recordedSignal_fanmed[i]);
+    delayMicroseconds(393.9);
+  }
+
+  delayMicroseconds(10000);
+  for (int i = 0; i < sizeof(recordedSignal_fanhigh) - 1; i++) {
+    digitalWrite(DATA, recordedSignal_fanhigh[i]);
+    delayMicroseconds(393.9);
+  }
+
+  delayMicroseconds(10000);
+  for (int i = 0; i < sizeof(recordedSignal_fanoffon) - 1; i++) {
+    digitalWrite(DATA, recordedSignal_fanoffon[i]);
+    delayMicroseconds(393.9);
+  }
+  delayMicroseconds(10000);
+
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_lightoffon) - 1; i++) {
+      digitalWrite(DATA, recordedSignal_lightoffon[i]);
+      delayMicroseconds(393.9);
+    }
+    digitalWrite(DATA, recordedSignal_lightoffon);
+
+    delayMicroseconds(9000);
+  }
+  delay(8000);
+}
