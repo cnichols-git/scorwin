@@ -1,0 +1,446 @@
+
+/*   
+ * RF_Transmitter
+ * a Home-Automation-friendly ESP8266-based MQTT Hunter Ceiling Fan RF Controller
+ * 2020 essaysee
+*/
+
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
+//#include "config.h"
+
+
+boolean recordedSignal_fanlow1[] =     {0, 0};
+boolean recordedSignal_fanmed1[] =     {0, 0};
+boolean recordedSignal_fanhigh1[] =    {0, 0};
+boolean recordedSignal_fanoff1[] =   {0, 0};
+boolean recordedSignal_lightoffon1[] = {0, 0};
+
+boolean recordedSignal_fanlow2[] =     {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0};
+boolean recordedSignal_fanmed2[] =     {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0};
+boolean recordedSignal_fanhigh2[] =    {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0};
+boolean recordedSignal_fanoff2[] =   {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0};
+boolean recordedSignal_lightoffon2[] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0};
+
+int a;
+
+// Mapping NodeMCU Ports to Arduino GPIO Pins
+// THIS IS ALL YOU NEED TO CHANGE IN THIS FILE
+#define D0 16
+#define D2 15
+#define D3 0
+#define D4 2
+#define D5 14
+#define D6 12 
+#define D7 13
+#define D8 15
+#define WIFI_SSID "dd-wrt"
+#define WIFI_PASSWORD "17712Scottydo0"
+#define MQTT_BROKER "192.168.1.144"
+#define MQTT_CLIENTID "RF_Transmitter"
+#define MQTT_USERNAME "rf"
+#define MQTT_PASSWORD "rf"
+#define BEDROOM1_ALIAS "Guest Bedroom 1"
+#define BEDROOM2_ALIAS "Guest Bedroom 2"
+#define MQTT_ROOM2_FAN_ACTION_TOPIC "bedroom/fan/2/FanSpeed"
+#define MQTT_ROOM2_FAN_STATUS_TOPIC "bedroom/fan/2/status"
+#define MQTT_ROOM1_FAN_ACTION_TOPIC "bedroom/fan/1/FanSpeed"
+#define MQTT_ROOM1_FAN_STATUS_TOPIC "bedroom/fan/1/status"
+#define MQTT_ROOM2_LIGHT_ACTION_TOPIC "bedroom/light/2/action"
+#define MQTT_ROOM2_LIGHT_STATUS_TOPIC "bedroom/light/2/status"
+#define MQTT_ROOM1_LIGHT_ACTION_TOPIC "bedroom/light/1/action"
+#define MQTT_ROOM1_LIGHT_STATUS_TOPIC "bedroom/light/1/status"
+#define TRANSMITTER_PIN D2
+#define RECEIVER_PIN D8
+
+//THAT WAS ALL YOU NEEDED TO CHANGE IN THE FILE
+
+
+
+const char* ssid = WIFI_SSID;
+const char* password = WIFI_PASSWORD;
+
+//const boolean static_ip = STATIC_IP;
+//IPAddress ip(IP);
+//IPAddress gateway(GATEWAY);
+//IPAddress subnet(SUBNET);
+
+const char* mqtt_broker = MQTT_BROKER;
+const char* mqtt_clientId = MQTT_CLIENTID;
+const char* mqtt_username = MQTT_USERNAME;
+const char* mqtt_password = MQTT_PASSWORD;
+
+
+
+const char* bedroom1_alias = BEDROOM1_ALIAS;
+const char* bedroom2_alias = BEDROOM2_ALIAS;
+const char* mqtt_room2_fan_action_topic = MQTT_ROOM2_FAN_ACTION_TOPIC;
+const char* mqtt_room2_fan_status_topic = MQTT_ROOM2_FAN_STATUS_TOPIC;
+const char* mqtt_room1_fan_action_topic = MQTT_ROOM1_FAN_ACTION_TOPIC;
+const char* mqtt_room1_fan_status_topic = MQTT_ROOM1_FAN_STATUS_TOPIC;
+
+const char* mqtt_room2_light_action_topic = MQTT_ROOM2_LIGHT_ACTION_TOPIC;
+const char* mqtt_room2_light_status_topic = MQTT_ROOM2_LIGHT_STATUS_TOPIC;
+const char* mqtt_room1_light_action_topic = MQTT_ROOM1_LIGHT_ACTION_TOPIC;
+const char* mqtt_room1_light_status_topic = MQTT_ROOM1_LIGHT_STATUS_TOPIC;
+const int transmitter_pin = TRANSMITTER_PIN;
+const int receiver_pin = RECEIVER_PIN;
+
+String availabilityBase = MQTT_CLIENTID;
+String availabilitySuffix = "/availability";
+String availabilityTopicStr = availabilityBase + availabilitySuffix;
+const char* availabilityTopic = availabilityTopicStr.c_str();
+const char* birthMessage = "online";
+const char* lwtMessage = "offline";
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+// Wifi setup function
+
+void setup_wifi() {
+
+  delay(10);
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.print(ssid);
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+
+//  if (static_ip) {
+//    WiFi.config(ip, gateway, subnet);
+//  }
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.print(" WiFi connected - IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+// Callback when MQTT message is received; calls triggerBedroomAction(), passing topic and payload as parameters
+
+void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+  
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+  }
+  
+  Serial.println();
+
+  String topicToProcess = topic;
+  payload[length] = '\0';
+  String payloadToProcess = (char*)payload;
+  triggerBedroomAction(topicToProcess, payloadToProcess);
+}
+
+
+
+// Function that publishes birthMessage
+
+void publish_birth_message() {
+  // Publish the birthMessage
+  Serial.print("Publishing birth message \"");
+  Serial.print(birthMessage);
+  Serial.print("\" to ");
+  Serial.print(availabilityTopic);
+  Serial.println("...");
+  client.publish(availabilityTopic, birthMessage, true);
+}
+
+
+
+
+
+// Function called by callback() when a message is received 
+// Passes the message topic as the "requestedRoom" parameter and the message payload as the "requestedAction" parameter
+// THIS JUST PRINTS OUT THE ACTION AND MESSAGE RECEIVED VIA SERIAL CONNECTION
+// KEEP AN EYE OUT FOR THE transmitRFsignal ACTION
+void triggerBedroomAction(String requestedRoom, String requestedAction) {
+  if (requestedRoom == mqtt_room1_fan_action_topic && requestedAction == "1") {
+    Serial.print("Setting ");
+    Serial.print(bedroom1_alias);
+    Serial.println("'s fan speed to low!");
+{
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanlow1) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_fanlow1[i]);
+      delayMicroseconds(393.9);
+    }
+    delayMicroseconds(9000);
+  }
+  delay(800);
+}
+    client.publish(mqtt_room1_fan_status_topic, "1");
+  }
+  else if (requestedRoom == mqtt_room1_fan_action_topic && requestedAction == "2") {
+    Serial.print("Setting ");
+    Serial.print(bedroom1_alias);
+    Serial.println("'s fan speed to medium!");
+{
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanmed1) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_fanmed1[i]);
+      delayMicroseconds(393.9);
+    }
+    delayMicroseconds(9000);
+  }
+  delay(800);
+}
+    client.publish(mqtt_room1_fan_status_topic, "2");
+  }
+  else if (requestedRoom == mqtt_room1_fan_action_topic && requestedAction == "3") {
+    Serial.print("Setting ");
+    Serial.print(bedroom1_alias);
+    Serial.println("'s fan speed to high!");
+{
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanhigh1) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_fanhigh1[i]);
+      delayMicroseconds(393.9);
+    }
+    delayMicroseconds(9000);
+  }
+  delay(800);
+}
+    client.publish(mqtt_room1_fan_status_topic, "3");
+  }
+  else if (requestedRoom == mqtt_room1_fan_action_topic && requestedAction == "0") {
+    Serial.print("Setting ");
+    Serial.print(bedroom1_alias);
+    Serial.println("'s fan off!");
+{
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanoff1) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_fanoff1[i]);
+      delayMicroseconds(393.9);
+    }
+    delayMicroseconds(9000);
+  }
+  delay(800);
+}
+    client.publish(mqtt_room1_fan_status_topic, "4");
+  }
+  else if (requestedRoom == mqtt_room1_light_action_topic && requestedAction == "off") {
+    Serial.print("Changing ");
+    Serial.print(bedroom1_alias);
+    Serial.println("'s light status!");
+{
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_lightoffon1) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_lightoffon1[i]);
+      delayMicroseconds(393.9);
+    }
+
+    delayMicroseconds(9000);
+  }
+  delay(600);
+}
+    client.publish(mqtt_room1_light_status_topic, "off");
+  }
+
+  else if (requestedRoom == mqtt_room1_light_action_topic && requestedAction == "on") {
+    Serial.print("Changing ");
+    Serial.print(bedroom1_alias);
+    Serial.println("'s light status!");
+{
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_lightoffon1) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_lightoffon1[i]);
+      delayMicroseconds(393.9);
+    }
+
+    delayMicroseconds(9000);
+  }
+  delay(600);
+}
+    client.publish(mqtt_room1_light_status_topic, "off");
+  }
+  
+  
+  else if (requestedRoom == mqtt_room2_fan_action_topic && requestedAction == "1") {
+    Serial.print("Setting ");
+    Serial.print(bedroom2_alias);
+    Serial.println("'s fan speed to low!");
+{
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanlow2) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_fanlow2[i]);
+      delayMicroseconds(393.9);
+    }
+    delayMicroseconds(9000);
+  }
+  delay(800);
+}
+    client.publish(mqtt_room2_fan_status_topic, "1");
+  }
+  else if (requestedRoom == mqtt_room2_fan_action_topic && requestedAction == "2") {
+    Serial.print("Setting ");
+    Serial.print(bedroom2_alias);
+    Serial.println("'s fan speed to medium!");
+{
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanmed2) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_fanmed2[i]);
+      delayMicroseconds(393.9);
+    }
+    delayMicroseconds(9000);
+  }
+  delay(800);
+}
+    client.publish(mqtt_room2_fan_status_topic, "2");
+  }
+  else if (requestedRoom == mqtt_room2_fan_action_topic && requestedAction == "3") {
+    Serial.print("Setting ");
+    Serial.print(bedroom2_alias);
+    Serial.println("'s fan speed to high!");
+{
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanhigh2) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_fanhigh2[i]);
+      delayMicroseconds(393.9);
+    }
+    delayMicroseconds(9000);
+  }
+  delay(800);
+}
+    client.publish(mqtt_room2_fan_status_topic, "3");
+  }
+  else if (requestedRoom == mqtt_room2_fan_action_topic && requestedAction == "0") {
+    Serial.print("Setting ");
+    Serial.print(bedroom2_alias);
+    Serial.println("'s fan off!");
+{
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_fanoff2) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_fanoff2[i]);
+      delayMicroseconds(393.9);
+    }
+    delayMicroseconds(9000);
+  }
+  delay(800);
+}
+    client.publish(mqtt_room2_fan_status_topic, "4");
+  }
+  else if (requestedRoom == mqtt_room2_light_action_topic && requestedAction == "off") {
+    Serial.print("Changing ");
+    Serial.print(bedroom2_alias);
+    Serial.println("'s light status!");
+  {
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_lightoffon2) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_lightoffon2[i]);
+      delayMicroseconds(393.9);
+    }
+    delayMicroseconds(9000);
+  }
+  delay(600);
+  }
+    client.publish(mqtt_room2_light_status_topic, "off");
+  }
+  else if (requestedRoom == mqtt_room2_light_action_topic && requestedAction == "on") {
+    Serial.print("Changing ");
+    Serial.print(bedroom2_alias);
+    Serial.println("'s light status!");
+  {
+  for (a = 0; a < 8; a++) {
+    for (int i = 0; i < sizeof(recordedSignal_lightoffon2) - 1; i++) {
+      digitalWrite(transmitter_pin, recordedSignal_lightoffon2[i]);
+      delayMicroseconds(393.9);
+    }
+    delayMicroseconds(9000);
+  }
+  delay(600);
+  }
+    client.publish(mqtt_room2_light_status_topic, "on");  
+  }  
+  else { Serial.println("Unrecognized action payload... taking no action!");
+ }
+}
+//ENDS THE ACTION OF WRITING IN SERIAL WHAT WAS RECEIVED AND WHAT IT WAS TOLD TO DO
+
+
+
+// Function that runs in loop() to connect/reconnect to the MQTT broker, and publish the current door statuses on connect
+
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect(mqtt_clientId, mqtt_username, mqtt_password, availabilityTopic, 0, true, lwtMessage)) {
+      Serial.println("Connected!");
+
+      // Publish the birth message on connect/reconnect
+      publish_birth_message();
+
+      // Subscribe to the action topics to listen for action messages
+      Serial.print("Subscribing to ");
+      Serial.print(mqtt_room2_fan_action_topic);
+      Serial.println("...");
+      client.subscribe(mqtt_room1_fan_action_topic);
+      Serial.print("Subscribing also to ");
+      Serial.print(mqtt_room1_fan_action_topic);
+      Serial.println("...");
+      client.subscribe(mqtt_room2_fan_action_topic);
+      Serial.print("Subscribing also to ");
+      Serial.print(mqtt_room1_light_action_topic);
+      Serial.println("...");
+      client.subscribe(mqtt_room2_light_action_topic);
+      Serial.print("Subscribing also to ");
+      Serial.print(mqtt_room1_light_action_topic);
+      Serial.println("...");
+      client.subscribe(mqtt_room2_light_action_topic);	  
+      Serial.println("I am all subscribed.");
+
+
+    } 
+    else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
+}
+
+
+
+void setup() {
+  // Setup the output and input pins used in the sketch
+  // Set the lastStatusValue variables to the state of the status pins at setup time
+
+  // Setup Door 1 pins
+  pinMode(transmitter_pin, OUTPUT);
+
+  // Setup serial output, connect to wifi, connect to MQTT broker, set MQTT message callback
+
+  Serial.begin(115200);
+  delay(2);
+  Serial.println("Starting RF transmitter for Hunter Fans...");
+  setup_wifi();
+  client.setServer(mqtt_broker, 1883);
+  client.setCallback(callback);
+}
+
+void loop() {
+  // Connect/reconnect to the MQTT broker and listen for messages
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+}
+
+
+
+
+//*********************************************************************************************************************
+//*********************************************************************************************************************
+//*********************************************************************************************************************
