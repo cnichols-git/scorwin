@@ -1,0 +1,9 @@
+----Here is a how to on how to publish/push things to git hub----
+For now, this will server as a simple reminder until the muscle memory is engrained.
+This will also serve as an exercise in pushing commands and further that muscle memory.
+
+git add **your file you want to push to git**
+git commit -m "message"  <--- describe what you are doing or the purpose
+git push
+
+enter your Git username followed by your github password
