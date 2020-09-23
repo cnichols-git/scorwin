@@ -52,3 +52,4 @@ tmpfs                    783M   20K  783M   1% /run/user/1000
 /dev/sr0                  57M   57M     0 100% /run/media/admin/VBox_GAs_6.1.6
 [admin@localhost ~]$ 
  /*
+ // actually, my file structure is MUCH different than yours ( I don't even have a /opt directory)
