@@ -36,3 +36,19 @@ LVM:
 #
 # Now up load the output of lsblk to this git page, praticing Git stuff
 
+          // not sure i have this totally right
+ */
+ 
+ [admin@localhost ~]$ df -h
+Filesystem               Size  Used Avail Use% Mounted on
+devtmpfs                 3.9G     0  3.9G   0% /dev
+tmpfs                    3.9G     0  3.9G   0% /dev/shm
+tmpfs                    3.9G  9.6M  3.9G   1% /run
+tmpfs                    3.9G     0  3.9G   0% /sys/fs/cgroup
+/dev/mapper/centos-root   35G  5.0G   31G  15% /
+/dev/sda1               1014M  184M  831M  19% /boot
+tmpfs                    783M  8.0K  783M   1% /run/user/42
+tmpfs                    783M   20K  783M   1% /run/user/1000
+/dev/sr0                  57M   57M     0 100% /run/media/admin/VBox_GAs_6.1.6
+[admin@localhost ~]$ 
+ /*
